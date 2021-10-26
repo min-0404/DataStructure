@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stack>
 #include "post.h"
-using namespace std;
+using namespace std; 
 
 bool Token::operator==(char b)
 {

@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 #define ID 257
-#define NUM 258
+#define NUM 258 
 #define EQ 259 
 #define NE 260
 #define GE 261 
