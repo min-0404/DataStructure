@@ -2,7 +2,7 @@
 #include "post.h"
 using namespace std;
 
-int main(void)
+int main(void) 
 {
     char line[MAXLEN];
     while(cin.getline(line, MAXLEN))

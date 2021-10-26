@@ -13,12 +13,12 @@ bool Token::operator!= (char b)
 }
 Token::Token() {}
 Token::Token(char c):len(1), type(c)
-{
+{ 
     str = new char[1]; 
     str[0] = c;
 }
 Token::Token(char c, char c2, int ty): len(2), type(ty)
-{
+{ 
     str = new char[2];
     str[0] = c;
     str[1] = c2;
