@@ -1,6 +1,7 @@
 #include "linked_list.h"
 
 
+
 int main(void)
 {
     //일단 chain하나 만들기
