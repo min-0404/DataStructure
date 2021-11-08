@@ -1,4 +1,4 @@
-//체인에 있는 노드 x를 삭제하는 Delete함수 만들기
+//2. 체인에 있는 노드 x를 삭제하는 Delete함수 만들기
 #include <iostream>
 using namespace std;
 
@@ -31,7 +31,7 @@ public:
     {
         return first;
     }
-    ChainNode* Insert(ChainNode* x, int value) //x는 삽입할 이전 노드
+    ChainNode* Insert(ChainNode* x, int value) //x는 삽입할 노드의 이전 노드
     {
         if(first) //기존 노드 있을 때
         {

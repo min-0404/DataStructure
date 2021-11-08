@@ -19,4 +19,3 @@ int main(void)
     chain.Delete(temp);
     chain.Show();
 }
- 

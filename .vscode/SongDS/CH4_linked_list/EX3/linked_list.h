@@ -1,6 +1,7 @@
-//1. 체인에 있는 노드 개수를 세는 함수 Length 작성하기.
+// 3.홀수 번째 노드를 삭제하는 함수를 작성해라
 #include <iostream>
 using namespace std;
+
 
 class ChainNode
 {
@@ -12,6 +13,10 @@ public:
     int getData()
     {
         return data;
+    }
+    ChainNode* getLink()
+    {
+        return link;
     }
     friend class Chain;
 };
@@ -26,7 +31,7 @@ public:
     {
         return first;
     }
-    ChainNode* Insert(ChainNode* x, int value) //x는 삽입할 이전 노드
+    ChainNode* Insert(ChainNode* x, int value) //x는 삽입할 노드의 이전 노드
     {
         if(first) //기존 노드 있을 때
         {
@@ -58,7 +63,32 @@ public:
         }
         delete x;
     }
-
+    
+    void alternateDelete(void)
+    {
+        if (first == NULL)
+        {
+            cout << "체인은 비어있다" << endl;
+            return;
+        }
+        else
+        {
+            ChainNode* temp = first;
+            Delete(temp);
+            temp = first; //first가 다음 노드를 가리켰으므로 first는 결국 원래 2번째 노드
+            while (temp->link != NULL) //다음 노드가 존재할 때까지
+            {
+                if ((temp->link->link) == NULL) //마지막 하나 남았을 떼
+                {
+                    delete[](temp->link);
+                    temp->link = NULL;
+                    break;
+                }
+                Delete(temp->link);
+                temp = temp->link; //2개 건너뛴다
+            }
+        }
+    }
     int Length()
     {
         int count = 0;
