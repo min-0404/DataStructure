@@ -4,7 +4,7 @@ using namespace std;
 template <typename T> class Chain; // 전방 선언 
 
 template <typename T>
-class ChainNode
+class ChainNode // ChainNode클래스 그대로 사용가능
 {
 private:
     T data;
@@ -26,7 +26,7 @@ public:
 };
 
 template <typename T>
-class Chain
+class Chain //C Chain 클래스 그대로 사용가능(Iterator 부분만 몇가지 추가해줬음)
 {
 private:
     ChainNode<T>* first;
@@ -84,7 +84,7 @@ public:
         }
         delete x;
     }
-    void InsertBack(const T& item)
+    void InsertBack(const T& item) // item 은 추가할 노드의 data값
     {
         if (first)
         {
@@ -98,7 +98,7 @@ public:
             first->link = NULL;
         }
     }
-    void Concatenate(Chain<T>& b)
+    void Concatenate(Chain<T>& b) // b는 기존 체인 뒤에 연결해줄 체인
     {
         if (first)
         {
@@ -123,7 +123,7 @@ public:
         }
         first = previous;
     }
-    class ChainIterator //nested class
+    class ChainIterator // nested class
     {
         private:
             ChainNode<T>* current;
@@ -144,12 +144,12 @@ public:
             {
                 return &current->data;
             }
-            ChainIterator& operator++() // 전위 증가
+            ChainIterator& operator++() // 전위 증가(숫자 더한다는 게 아니라 현재 노드의 다음 노드를  가리키는 방법으로 사용됨)
             {
                 current = current->link;
                 return *this;
             }
-            ChainIterator operator++(int) //후의 증가
+            ChainIterator operator++(int) //후의 증가(숫자 더한다는 게 아니라 현재 노드의 다음 노드를 가리키는 방법으로 사용됨)
             {
                 ChainIterator old = *this;
                 current = current->link;
@@ -163,7 +163,7 @@ public:
             {
                 return current = right.current;
             }
-            bool operator&&(const ChainIterator right) const
+            bool operator&&(const ChainIterator right) const // 기존 함수에서 추가해준 것( 현재 ChainIterator객체와 매개변수 ChainIterator객체가 null이 아닌 지 확인)
             {
                 return current && right.current;
             }
@@ -184,7 +184,7 @@ public:
 
  
 template <typename T>
-ostream &operator<<(ostream &os, Chain<T> &c)
+ostream& operator<<(ostream& os, Chain<T>& c)
 {
     Chain<T>::ChainIterator i = c.begin();
     while (i != c.end())
@@ -212,9 +212,9 @@ public:
         }
     };
 private:
-    Chain<Term> poly;
+    Chain<Term> poly; // 중요!!!
 public:
-    Polynomial() {}
+    Polynomial() {}  // 생성자
     void InsertTerm(Term& term)
     {
         poly.InsertBack(term);
@@ -223,10 +223,10 @@ public:
     {
         Term temp;
         Chain<Term>::ChainIterator ai = poly.begin(), bi = b.poly.begin();
-        Polynomial c; //두 식의 합을 반환할 클래스
+        Polynomial c;
         while (ai && bi)
         {
-            if (ai->exp == bi->exp) //지수가 동일할시 더하고
+            if (ai->exp == bi->exp) // 차수가 동일할 때
             {
                 int sum = ai->coef + bi->coef;
                 if (sum)
@@ -234,23 +234,23 @@ public:
                 ai++;
                 bi++;
             }
-            else if (ai->exp < bi->exp) //지수가 더 작은 쪽을 먼저 더한다, 그래야 높은 지수끼리 기다리고 더할 수 있다
+            else if (ai->exp < bi->exp) // ai 의 차수가 더 높을 때
             {
                 c.poly.InsertBack(temp.Set(ai->coef, ai->exp));
                 ai++;
             }
-            else
+            else // bi의 차수가 더 높을  때
             {
                 c.poly.InsertBack(temp.Set(bi->coef, bi->exp));
                 bi++;
             }
         }
-        while (ai != 0) //식이 더 많은 쪽을 마저 더한다
+        while (ai != 0) // 남은 항들 뒷처리 과정
         {
             c.poly.InsertBack(temp.Set(ai->coef, ai->exp));
             ai++;
         }
-        while (bi != 0)
+        while (bi != 0) // 남은 항들 뒷처리 과정
         {
             c.poly.InsertBack(temp.Set(bi->coef, bi->exp));
             bi++;
@@ -258,8 +258,6 @@ public:
         return c;
     }
 
-
-    
     int Eval(int x)
     {
         int sum = 0;
@@ -267,9 +265,7 @@ public:
         while (ai != 0)
         {
             for (int i = 0; i < ai->exp; i++)
-            {
                 x *= x;
-            }
             sum += ai->coef*x;
             ai++;
         }
@@ -279,7 +275,7 @@ public:
     friend istream &operator>>(istream &is, Polynomial &p);
 };
 
-ostream &operator<<(ostream &os, Polynomial &p)
+ostream& operator<<(ostream& os, Polynomial& p)
 {
     Chain<Polynomial::Term>::ChainIterator i = p.poly.begin();
     while (1)
@@ -300,47 +296,23 @@ ostream &operator<<(ostream &os, Polynomial &p)
  
 
 istream &operator>>(istream &is, Polynomial &p)
-
 {
-
-        int coef, exp;
-
-        int num;
-
- 
-
-        cout << "다항식에 몇개의 식을 추가할 것인가?";
-
-        is >> num;
-
- 
-
-        for (int i = 0; i < num; i++)
-
-        {
-
-               cout << i + 1 << "번째 계수: ";
-
-               is >> coef;
-
-               cout << i + 1 << "번째 지수: ";
-
-               is >> exp;
-
- 
-
-               Polynomial::Term temp;
-
-               temp.exp = exp;
-
-               temp.coef = coef;
-
-               p.InsertTerm(temp);
-
-        }
-
- 
-
-        return is;
-
+    int coef, exp;
+    int num;
+    cout << "다항식에 몇개의 식을 추가할 것인가?";
+    is >> num;
+    
+    for (int i = 0; i < num; i++)
+    {
+        cout << i + 1 << "번째 계수: ";
+        is >> coef;
+        cout << i + 1 << "번째 지수: ";
+        is >> exp;
+        
+        Polynomial::Term temp;
+        temp.exp = exp;
+        temp.coef = coef;
+        p.InsertTerm(temp);
+    }
+    return is;
 }
