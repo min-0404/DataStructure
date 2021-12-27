@@ -16,3 +16,5 @@ int main()
     cout << "합은" << sum << endl;
     return 0;
 }
+
+

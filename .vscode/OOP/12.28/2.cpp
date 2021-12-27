@@ -1,3 +1,5 @@
 #include <iostream>
-using namsepsace std;
+using namespace std;
+
+
 
